@@ -25,31 +25,6 @@ const (
 	Normal = "normal"
 )
 
-type DownstreamHttpMessage struct {
-	To               string        `json:"to,omitempty"`
-	RegistrationIds  []string      `json:"registration_ids,omitempty"`
-	Priority         string        `json:"priority,omitempty"`
-	ContentAvailable bool          `json:"content_available,omitempty"`
-	TimeToLive       int64         `json:"time_to_live,omitempty"`
-	DryRun           bool          `json:"dry_run,omitempty"`
-	Notification     *Notification `json:"notification,omitempty"`
-	//	Data             Data         `json:"data,omitempty"`
-}
-
-type Notification struct {
-	Title string `json:"title,omitempty"`
-	Body  string `json:"body,omitempty"`
-	Sound string `json:"sound,omitempty"`
-	Badge int64  `json:"badge,omitempty"`
-	Icon  string `json:"icon,omitempty"`
-	Tag   string `json:"tag,omitempty"`
-}
-
-// TODO
-// type Data struct {
-// 	data map[string]interface{}
-// }
-
 type Result struct {
 	MessageId      string `json:"message_id,omitempty"`
 	RegistrationId string `json:"registration_id,omitempty"`
@@ -65,7 +40,7 @@ type Response struct {
 	Results      []Result `json:"results,omitempty"`
 }
 
-func New(key string) *client {
+func NewClient(key string) *client {
 	c := &client{
 		httpClient: &http.Client{Timeout: time.Duration(30) * time.Second},
 		serverKey:  "key=" + key,
@@ -73,7 +48,7 @@ func New(key string) *client {
 	return c
 }
 
-func (c *client) Send(message *DownstreamHttpMessage) (*Response, error) {
+func (c *client) Send(message *downstreamHttpMessage) (*Response, error) {
 	body, err := json.Marshal(&message)
 	if err != nil {
 		fmt.Println(err)
@@ -82,7 +57,7 @@ func (c *client) Send(message *DownstreamHttpMessage) (*Response, error) {
 	reader := bytes.NewReader(body)
 
 	// for debug
-	fmt.Println(bytes.NewBuffer(body).String())
+	//fmt.Println(bytes.NewBuffer(body).String())
 
 	req, err := http.NewRequest("POST", "https://fcm.googleapis.com/fcm/send", reader)
 	if err != nil {

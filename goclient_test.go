@@ -8,6 +8,7 @@ import (
 )
 
 func TestSend(t *testing.T) {
+	const dummyKey = "dummyKey"
 
 	tc := &testClient{
 		resp: &http.Response{
@@ -17,18 +18,21 @@ func TestSend(t *testing.T) {
 		},
 		err: nil,
 	}
-	c := New("key")
+	c := NewClient(dummyKey)
 	c.httpClient = tc
 
-	msg := new(DownstreamHttpMessage)
-	msg.To = "/topics/all"
-	msg.Priority = High
+	msg := NewMessage("/topics/all").SetPriority(High)
 	resp, err := c.Send(msg)
+
+	if auth := tc.req.Header.Get("Authorization"); auth != "key="+dummyKey {
+		t.Errorf("key: %s, expect %s", auth, dummyKey)
+	}
+
 	if err != nil {
 		t.Error(err)
 	}
 	if resp.MessageId != 123456 {
-		t.Errorf("body: got %s, expect %s", resp.MessageId, 123456)
+		t.Errorf("message id: got %s, expect %s", resp.MessageId, 123456)
 	}
 
 }
