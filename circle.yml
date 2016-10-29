@@ -9,10 +9,6 @@ machine:
     GO_VERSION: "1.7.3"
 
 checkout:
-  post:
-    - mkdir -p "$GOPATH/src"
-
-test:
   pre:
     # 最新を使いたいので用意されているgoは削除
     - sudo rm -rf /usr/local/go
@@ -20,6 +16,8 @@ test:
     - wget https://storage.googleapis.com/golang/go$GO_VERSION.linux-amd64.tar.gz -O $HOME/golang$GO_VERSION.tar.gz
     - sudo tar zxf $HOME/golang$GO_VERSION.tar.gz -C $HOME
     - go version
+
+test:
     - go vet ./...
 
 
