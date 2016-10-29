@@ -11,7 +11,7 @@ import (
 	"time"
 )
 
-type client struct {
+type Client struct {
 	httpClient httpRunner
 	serverKey  string
 }
@@ -40,7 +40,7 @@ type Response struct {
 	Results      []Result `json:"results,omitempty"`
 }
 
-func NewClient(key string) *client {
+func NewClient(key string) *Client {
 	c := &client{
 		httpClient: &http.Client{Timeout: time.Duration(30) * time.Second},
 		serverKey:  "key=" + key,
@@ -48,7 +48,7 @@ func NewClient(key string) *client {
 	return c
 }
 
-func (c *client) Send(message *downstreamHttpMessage) (*Response, error) {
+func (c *Client) Send(message *downstreamHttpMessage) (*Response, error) {
 	body, err := json.Marshal(&message)
 	if err != nil {
 		fmt.Println(err)
