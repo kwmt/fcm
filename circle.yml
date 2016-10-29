@@ -20,9 +20,9 @@ test:
     - wget https://storage.googleapis.com/golang/go$GO_VERSION.linux-amd64.tar.gz -O $HOME/golang$GO_VERSION.tar.gz
     - sudo tar zxf $HOME/golang$GO_VERSION.tar.gz -C $HOME
     - go version
-    - cd $GOPATH/src/github.com/kwmt/fcm && go vet ./...
+    - go vet ./...
 
 
   override:
-    - cd $GOPATH/src/github.com/kwmt/fcm && go test -bench . -benchmem
+    - go test -bench . -benchmem
 
