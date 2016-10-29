@@ -1,6 +1,6 @@
 package fcm
 
-type downstreamHttpMessage struct {
+type DownstreamHttpMessage struct {
 	To               string        `json:"to,omitempty"`
 	RegistrationIds  []string      `json:"registration_ids,omitempty"`
 	Priority         string        `json:"priority,omitempty"`
@@ -25,39 +25,39 @@ type notification struct {
 // 	data map[string]interface{}
 // }
 
-func NewMessage(to string) *downstreamHttpMessage {
-	m := new(downstreamHttpMessage)
+func NewMessage(to string) *DownstreamHttpMessage {
+	m := new(DownstreamHttpMessage)
 	m.notification = new(notification)
 	m.To = to
 	return m
 }
 
-func (msg *downstreamHttpMessage) SetPriority(priority string) *downstreamHttpMessage {
+func (msg *DownstreamHttpMessage) SetPriority(priority string) *DownstreamHttpMessage {
 	msg.Priority = priority
 	return msg
 }
 
-func (msg *downstreamHttpMessage) SetTitle(title string) *downstreamHttpMessage {
+func (msg *DownstreamHttpMessage) SetTitle(title string) *DownstreamHttpMessage {
 	msg.notification.Title = title
 	return msg
 }
-func (msg *downstreamHttpMessage) SetBody(body string) *downstreamHttpMessage {
+func (msg *DownstreamHttpMessage) SetBody(body string) *DownstreamHttpMessage {
 	msg.notification.Body = body
 	return msg
 }
-func (msg *downstreamHttpMessage) SetSound(sound string) *downstreamHttpMessage {
+func (msg *DownstreamHttpMessage) SetSound(sound string) *DownstreamHttpMessage {
 	msg.notification.Sound = sound
 	return msg
 }
-func (msg *downstreamHttpMessage) SetBadge(badge int64) *downstreamHttpMessage {
+func (msg *DownstreamHttpMessage) SetBadge(badge int64) *DownstreamHttpMessage {
 	msg.notification.Badge = badge
 	return msg
 }
-func (msg *downstreamHttpMessage) SetIcon(icon string) *downstreamHttpMessage {
+func (msg *DownstreamHttpMessage) SetIcon(icon string) *DownstreamHttpMessage {
 	msg.notification.Icon = icon
 	return msg
 }
-func (msg *downstreamHttpMessage) SetTag(tag string) *downstreamHttpMessage {
+func (msg *DownstreamHttpMessage) SetTag(tag string) *DownstreamHttpMessage {
 	msg.notification.Tag = tag
 	return msg
 }
