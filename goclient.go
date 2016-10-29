@@ -41,14 +41,14 @@ type Response struct {
 }
 
 func NewClient(key string) *Client {
-	c := &client{
+	c := &Client{
 		httpClient: &http.Client{Timeout: time.Duration(30) * time.Second},
 		serverKey:  "key=" + key,
 	}
 	return c
 }
 
-func (c *Client) Send(message *downstreamHttpMessage) (*Response, error) {
+func (c *Client) Send(message *DownstreamHttpMessage) (*Response, error) {
 	body, err := json.Marshal(&message)
 	if err != nil {
 		fmt.Println(err)
