@@ -8,7 +8,7 @@ Usage
 ```go
 msg := fcm.NewMessage("/topics/all").SetPriority(fcm.High)
 
-resp, _ := fcm.New("<YOUR SERVER KEY>").Send(msg)
+resp, _ := fcm.NewClient("<YOUR SERVER KEY>").Send(msg)
 fmt.Println(resp.MessageId)
 ```
 
