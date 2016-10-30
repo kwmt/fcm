@@ -6,10 +6,16 @@ Usage
 -----
 
 ```go
+// send push message
 msg := fcm.NewMessage("/topics/all").SetPriority(fcm.High)
 
-resp, _ := fcm.NewClient("<YOUR SERVER KEY>").Send(msg)
-fmt.Println(resp.MessageId)
+c := fcm.NewClient("<YOUR SERVER KEY>")
+resp, _ := c.Send(msg)
+fmt.Println(resp)
+
+// get regitration token info
+respInfo, _ := c.GetRegistrationTokenInfo("<REGISTRATION TOKEN>")
+fmt.Println(respInfo)
 ```
 
 Install

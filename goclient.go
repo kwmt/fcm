@@ -8,6 +8,7 @@ import (
 	//"strings"
 	"bytes"
 	"encoding/json"
+	"io"
 	"time"
 )
 
@@ -40,6 +41,14 @@ type Response struct {
 	Results      []Result `json:"results,omitempty"`
 }
 
+type ResponseInfo struct {
+	ApplicationVersion string `json:"applicationVersion,omitempty"`
+	Application        string `json:"application,omitempty"`
+	Scope              string `json:"scope,omitempty"`
+	authorizedEntity   string `json:"authorizedEntity,omitempty"`
+	Platform           string `json:"platform,omitempty"`
+}
+
 func NewClient(key string) *Client {
 	c := &Client{
 		httpClient: &http.Client{Timeout: time.Duration(30) * time.Second},
@@ -54,17 +63,34 @@ func (c *Client) Send(message *DownstreamHttpMessage) (*Response, error) {
 		fmt.Println(err)
 		return nil, err
 	}
-	reader := bytes.NewReader(body)
-
 	// for debug
-	//fmt.Println(bytes.NewBuffer(body).String())
-
-	req, err := http.NewRequest("POST", "https://fcm.googleapis.com/fcm/send", reader)
+	// fmt.Println(bytes.NewBuffer(body).String())
+	resp, err := c.request("POST", "https://fcm.googleapis.com/fcm/send", bytes.NewReader(body))
 	if err != nil {
 		fmt.Println(err)
 		return nil, err
 	}
+	defer resp.Body.Close()
 
+	return toResponse(resp)
+}
+
+func (c *Client) GetRegistrationTokenInfo(regToken string) (*ResponseInfo, error) {
+	url := "https://iid.googleapis.com/iid/info/" + regToken
+	resp, err := c.request("GET", url, nil)
+	if err != nil {
+		return nil, err
+	}
+	defer resp.Body.Close()
+
+	return toResponseInfo(resp)
+}
+
+func (c *Client) request(httpMethod string, url string, body io.Reader) (*http.Response, error) {
+	req, err := http.NewRequest(httpMethod, url, body)
+	if err != nil {
+		return nil, err
+	}
 	req.Header.Add("Content-Type", "application/json")
 	req.Header.Add("Authorization", c.serverKey)
 	resp, err := c.httpClient.Do(req)
@@ -72,13 +98,29 @@ func (c *Client) Send(message *DownstreamHttpMessage) (*Response, error) {
 		fmt.Println(err)
 		return nil, err
 	}
-	defer resp.Body.Close()
 
-	return parse(resp)
+	return resp, nil
 }
 
-func parse(resp *http.Response) (*Response, error) {
+func toResponse(resp *http.Response) (*Response, error) {
 	var res Response
+	b, err := ioutil.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(err)
+		return nil, err
+	}
+
+	fmt.Println(string(b))
+
+	if err := json.Unmarshal(b, &res); err != nil {
+		return nil, err
+	}
+	return &res, nil
+}
+
+// TODO: 共通化
+func toResponseInfo(resp *http.Response) (*ResponseInfo, error) {
+	var res ResponseInfo
 	b, err := ioutil.ReadAll(resp.Body)
 	if err == nil {
 		fmt.Println(string(b))

@@ -37,6 +37,34 @@ func TestSend(t *testing.T) {
 
 }
 
+func TestGetRegistrationTokenInfo(t *testing.T) {
+	const dummyKey = "dummyKey"
+
+	tc := &testClient{
+		resp: &http.Response{
+			Status:     "200 OK",
+			StatusCode: 200,
+			Body:       ioutil.NopCloser(bytes.NewReader([]byte(`{"applicationVersion":"1.0","application":"com.example","scope":"*","authorizedEntity":"1234","platform":"IOS"}`))),
+		},
+		err: nil,
+	}
+	c := NewClient(dummyKey)
+	c.httpClient = tc
+
+	resp, err := c.GetRegistrationTokenInfo("regToken")
+
+	if err != nil {
+		t.Error(err)
+	}
+	if resp.Application != "com.example" {
+		t.Errorf("application: got %s, expect %s", resp.Application, "com.example")
+	}
+	if resp.Platform != "IOS" {
+		t.Errorf("platform: got %s, expect %s", resp.Platform, "IOS")
+	}
+
+}
+
 type testClient struct {
 	req  *http.Request
 	resp *http.Response
