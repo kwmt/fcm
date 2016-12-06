@@ -2,7 +2,7 @@ package fcm
 
 type DownstreamHttpMessage struct {
 	To               string        `json:"to,omitempty"`
-	RegistrationIds  []string      `json:"registration_ids,omitempty"`
+	RegistrationIDs  []string      `json:"registration_ids,omitempty"`
 	Priority         string        `json:"priority,omitempty"`
 	ContentAvailable bool          `json:"content_available,omitempty"`
 	TimeToLive       int64         `json:"time_to_live,omitempty"`
@@ -34,6 +34,11 @@ func NewMessage(to string) *DownstreamHttpMessage {
 
 func (msg *DownstreamHttpMessage) SetPriority(priority string) *DownstreamHttpMessage {
 	msg.Priority = priority
+	return msg
+}
+
+func (msg *DownstreamHttpMessage) AddRegistratinID(regID string) *DownstreamHttpMessage {
+	msg.RegistrationIDs = append(msg.RegistrationIDs, regID)
 	return msg
 }
 
