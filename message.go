@@ -1,5 +1,6 @@
 package fcm
 
+// see https://firebase.google.com/docs/cloud-messaging/http-server-ref?hl=en#downstream-http-messages-json
 type DownstreamHttpMessage struct {
 	To               string        `json:"to,omitempty"`
 	RegistrationIds  []string      `json:"registration_ids,omitempty"`
@@ -11,6 +12,7 @@ type DownstreamHttpMessage struct {
 	//	Data             Data         `json:"data,omitempty"`
 }
 
+// see https://firebase.google.com/docs/cloud-messaging/http-server-ref?hl=en#notification-payload-support
 type notification struct {
 	Title string `json:"title,omitempty"`
 	Body  string `json:"body,omitempty"`
@@ -25,6 +27,7 @@ type notification struct {
 // 	data map[string]interface{}
 // }
 
+// create *DownstreamHttpMessage instance
 func NewMessage(to string) *DownstreamHttpMessage {
 	m := new(DownstreamHttpMessage)
 	m.Notification = new(notification)

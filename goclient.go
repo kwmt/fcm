@@ -22,10 +22,14 @@ type httpRunner interface {
 }
 
 const (
+	// see https://firebase.google.com/docs/cloud-messaging/concept-options?hl=en#setting-the-priority-of-a-message
+	// high priority
 	High   = "high"
+	// normal priority
 	Normal = "normal"
 )
 
+// see https://firebase.google.com/docs/cloud-messaging/http-server-ref?hl=en#interpret-downstream
 type Result struct {
 	MessageId      string `json:"message_id,omitempty"`
 	RegistrationId string `json:"registration_id,omitempty"`
@@ -57,6 +61,7 @@ func NewClient(key string) *client {
 	return c
 }
 
+// Send send message via FCM
 func (c *client) Send(message *DownstreamHttpMessage) (*Response, error) {
 	body, err := json.Marshal(&message)
 	if err != nil {
@@ -75,6 +80,7 @@ func (c *client) Send(message *DownstreamHttpMessage) (*Response, error) {
 	return toResponse(resp)
 }
 
+// Get registration token information
 func (c *client) GetRegistrationTokenInfo(regToken string) (*ResponseInfo, error) {
 	url := "https://iid.googleapis.com/iid/info/" + regToken
 	resp, err := c.request("GET", url, nil)
