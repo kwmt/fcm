@@ -45,7 +45,7 @@ type ResponseInfo struct {
 	ApplicationVersion string `json:"applicationVersion,omitempty"`
 	Application        string `json:"application,omitempty"`
 	Scope              string `json:"scope,omitempty"`
-	authorizedEntity   string `json:"authorizedEntity,omitempty"`
+	AuthorizedEntity   string `json:"authorizedEntity,omitempty"`
 	Platform           string `json:"platform,omitempty"`
 }
 

@@ -32,7 +32,7 @@ func TestSend(t *testing.T) {
 		t.Error(err)
 	}
 	if resp.MessageId != 123456 {
-		t.Errorf("message id: got %s, expect %s", resp.MessageId, 123456)
+		t.Errorf("message id: got %d, expect %d", resp.MessageId, 123456)
 	}
 
 }

@@ -7,7 +7,7 @@ type DownstreamHttpMessage struct {
 	ContentAvailable bool          `json:"content_available,omitempty"`
 	TimeToLive       int64         `json:"time_to_live,omitempty"`
 	DryRun           bool          `json:"dry_run,omitempty"`
-	notification     *notification `json:"notification,omitempty"`
+	Notification     *notification `json:"notification,omitempty"`
 	//	Data             Data         `json:"data,omitempty"`
 }
 
@@ -27,7 +27,7 @@ type notification struct {
 
 func NewMessage(to string) *DownstreamHttpMessage {
 	m := new(DownstreamHttpMessage)
-	m.notification = new(notification)
+	m.Notification = new(notification)
 	m.To = to
 	return m
 }
@@ -38,26 +38,26 @@ func (msg *DownstreamHttpMessage) SetPriority(priority string) *DownstreamHttpMe
 }
 
 func (msg *DownstreamHttpMessage) SetTitle(title string) *DownstreamHttpMessage {
-	msg.notification.Title = title
+	msg.Notification.Title = title
 	return msg
 }
 func (msg *DownstreamHttpMessage) SetBody(body string) *DownstreamHttpMessage {
-	msg.notification.Body = body
+	msg.Notification.Body = body
 	return msg
 }
 func (msg *DownstreamHttpMessage) SetSound(sound string) *DownstreamHttpMessage {
-	msg.notification.Sound = sound
+	msg.Notification.Sound = sound
 	return msg
 }
 func (msg *DownstreamHttpMessage) SetBadge(badge int64) *DownstreamHttpMessage {
-	msg.notification.Badge = badge
+	msg.Notification.Badge = badge
 	return msg
 }
 func (msg *DownstreamHttpMessage) SetIcon(icon string) *DownstreamHttpMessage {
-	msg.notification.Icon = icon
+	msg.Notification.Icon = icon
 	return msg
 }
 func (msg *DownstreamHttpMessage) SetTag(tag string) *DownstreamHttpMessage {
-	msg.notification.Tag = tag
+	msg.Notification.Tag = tag
 	return msg
 }
