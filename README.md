@@ -1,5 +1,5 @@
 # fcm
-[![CircleCI](https://circleci.com/gh/kwmt/fcm.svg?style=svg&circle-token=1a97631ce162453dd004f748bc276acec2d3c2c9)](https://circleci.com/gh/kwmt/fcm) [![GoDoc](https://godoc.org/github.com/kwmt/fcm?status.svg)](http://godoc.org/github.com/kwmt/fcm) 
+[![CircleCI](https://circleci.com/gh/kwmt/fcm.svg?style=svg&circle-token=1a97631ce162453dd004f748bc276acec2d3c2c9)](https://circleci.com/gh/kwmt/fcm) [![wercker status](https://app.wercker.com/status/5578c65655f9ee5bb38982e575d84338/s/master "wercker status")](https://app.wercker.com/project/byKey/5578c65655f9ee5bb38982e575d84338) [![GoDoc](https://godoc.org/github.com/kwmt/fcm?status.svg)](http://godoc.org/github.com/kwmt/fcm) 
 [![Go Report Card](https://goreportcard.com/badge/github.com/kwmt/fcm)](https://goreportcard.com/report/github.com/kwmt/fcm)
 
 Usage
