@@ -12,7 +12,7 @@ import (
 	"time"
 )
 
-type Client struct {
+type client struct {
 	httpClient httpRunner
 	serverKey  string
 }
@@ -49,15 +49,15 @@ type ResponseInfo struct {
 	Platform           string `json:"platform,omitempty"`
 }
 
-func NewClient(key string) *Client {
-	c := &Client{
+func NewClient(key string) *client {
+	c := &client{
 		httpClient: &http.Client{Timeout: time.Duration(30) * time.Second},
 		serverKey:  "key=" + key,
 	}
 	return c
 }
 
-func (c *Client) Send(message *DownstreamHttpMessage) (*Response, error) {
+func (c *client) Send(message *DownstreamHttpMessage) (*Response, error) {
 	body, err := json.Marshal(&message)
 	if err != nil {
 		fmt.Println(err)
@@ -75,7 +75,7 @@ func (c *Client) Send(message *DownstreamHttpMessage) (*Response, error) {
 	return toResponse(resp)
 }
 
-func (c *Client) GetRegistrationTokenInfo(regToken string) (*ResponseInfo, error) {
+func (c *client) GetRegistrationTokenInfo(regToken string) (*ResponseInfo, error) {
 	url := "https://iid.googleapis.com/iid/info/" + regToken
 	resp, err := c.request("GET", url, nil)
 	if err != nil {
@@ -86,7 +86,7 @@ func (c *Client) GetRegistrationTokenInfo(regToken string) (*ResponseInfo, error
 	return toResponseInfo(resp)
 }
 
-func (c *Client) request(httpMethod string, url string, body io.Reader) (*http.Response, error) {
+func (c *client) request(httpMethod string, url string, body io.Reader) (*http.Response, error) {
 	req, err := http.NewRequest(httpMethod, url, body)
 	if err != nil {
 		return nil, err
