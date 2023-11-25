@@ -9,7 +9,7 @@ type DownstreamHttpMessage struct {
 	TimeToLive       int64         `json:"time_to_live,omitempty"`
 	DryRun           bool          `json:"dry_run,omitempty"`
 	Notification     *notification `json:"notification,omitempty"`
-	//	Data             Data         `json:"data,omitempty"`
+	data
 }
 
 // see https://firebase.google.com/docs/cloud-messaging/http-server-ref?hl=en#notification-payload-support
@@ -22,10 +22,9 @@ type notification struct {
 	Tag   string `json:"tag,omitempty"`
 }
 
-// TODO
-// type Data struct {
-// 	data map[string]interface{}
-// }
+type data struct {
+	Data map[string]interface{} `json:"data,omitempty"`
+}
 
 // create *DownstreamHttpMessage instance
 func NewMessage(to string) *DownstreamHttpMessage {
@@ -62,5 +61,9 @@ func (msg *DownstreamHttpMessage) SetIcon(icon string) *DownstreamHttpMessage {
 }
 func (msg *DownstreamHttpMessage) SetTag(tag string) *DownstreamHttpMessage {
 	msg.Notification.Tag = tag
+	return msg
+}
+func (msg *DownstreamHttpMessage) SetData(data map[string]interface{}) *DownstreamHttpMessage {
+	msg.Data = data
 	return msg
 }
