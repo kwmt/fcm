@@ -1,3 +1,3 @@
-module github.com/kwmt/fcm
+module fcm
 
 go 1.22.1
