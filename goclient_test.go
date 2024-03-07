@@ -21,10 +21,10 @@ func TestSend(t *testing.T) {
 	c := NewClient(dummyKey)
 	c.httpClient = tc
 
-	msg := NewMessage("/topics/all").SetPriority(High)
+	msg := NewMessage("news").SetPriority(High)
 	resp, err := c.Send(msg)
 
-	if auth := tc.req.Header.Get("Authorization"); auth != "key="+dummyKey {
+	if auth := tc.req.Header.Get("Authorization"); auth != "Bearer "+dummyKey {
 		t.Errorf("key: %s, expect %s", auth, dummyKey)
 	}
 
