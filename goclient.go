@@ -3,6 +3,7 @@ package fcm
 import (
 	"fmt"
 	"net/http"
+
 	//"net/url"
 	"io/ioutil"
 	//"strings"
@@ -24,7 +25,7 @@ type httpRunner interface {
 const (
 	// see https://firebase.google.com/docs/cloud-messaging/concept-options?hl=en#setting-the-priority-of-a-message
 	// high priority
-	High   = "high"
+	High = "high"
 	// normal priority
 	Normal = "normal"
 )
@@ -56,13 +57,13 @@ type ResponseInfo struct {
 func NewClient(key string) *client {
 	c := &client{
 		httpClient: &http.Client{Timeout: time.Duration(30) * time.Second},
-		serverKey:  "key=" + key,
+		serverKey:  "Bearer " + key,
 	}
 	return c
 }
 
 // Send send message via FCM
-func (c *client) Send(message *DownstreamHttpMessage) (*Response, error) {
+func (c *client) Send(message *MessageData) (*Response, error) {
 	body, err := json.Marshal(&message)
 	if err != nil {
 		fmt.Println(err)
@@ -70,7 +71,7 @@ func (c *client) Send(message *DownstreamHttpMessage) (*Response, error) {
 	}
 	// for debug
 	// fmt.Println(bytes.NewBuffer(body).String())
-	resp, err := c.request("POST", "https://fcm.googleapis.com/fcm/send", bytes.NewReader(body))
+	resp, err := c.request("POST", "https://fcm.googleapis.com/v1/projects/myproject-b5ae1/messages:send", bytes.NewReader(body))
 	if err != nil {
 		fmt.Println(err)
 		return nil, err

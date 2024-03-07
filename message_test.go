@@ -18,10 +18,12 @@ func TestMessageSetData(t *testing.T) {
 		t.Error(err)
 	}
 	expected := `{
-  "to": "regsitration token sample",
-  "notification": {},
-  "data": {
-    "url": "https://example.com"
+  "message": {
+    "topic": "regsitration token sample",
+    "notification": {},
+    "data": {
+      "url": "https://example.com"
+    }
   }
 }`
 
